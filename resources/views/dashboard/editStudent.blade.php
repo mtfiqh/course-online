@@ -36,8 +36,8 @@
                         <div class="form-group">
                             <label for="jenis_kelamin">Jenis Kelamin:</label>
                             <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
-                                <option value="Laki-Laki">Laki-Laki</option>
-                                <option value="Perempuan">Perempuan</option>
+                                <option value="Laki-Laki" {{$user->student->jenis_kelamin=="Laki-Laki" ? 'selected' : ''}}>Laki-Laki</option>
+                                <option value="Perempuan" {{$user->student->jenis_kelamin=="Perempuan" ? 'selected' : ''}}>Perempuan</option>
                             </select>
                         </div>
                     </div>
@@ -50,8 +50,8 @@
                     <div class="card-body border-bottom-warning">
                         <h2>Avatar</h2>
                         <hr />
-                        <img src="{{Storage::url($user->avatar)}}">
-                        <div class="form-group">
+                        <img class="img-thumbnail" src="{{Storage::url($user->avatar)}}">
+                        <div class="form-group mt-2">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" name="avatar" id="avatar">
                                 <label class="custom-file-label" for="customFile">Pilih Foto</label>
@@ -100,7 +100,7 @@
                         {{-- Tingkatan --}}
                         <div class="form-group">
                             <label for="tingkatan">Tingkatan:</label>
-                            <select  class="form-control" name="tingkatan">
+                            <select  class="form-control" name="tingkatan" id="tingkatan">
                                 <option value="TK">TK</option>
                                 <option value="SD" {{ $user->student->tingkatan=='SD' ? 'selected': '' }}>SD</option>
                             </select>
@@ -126,12 +126,12 @@
                         {{-- nomor handphone --}}
                         <div class="form-group">
                             <label for="nomor_handphone">Nomor Handphone</label>
-                            <input type="number" placeholder="Nomor Handphone" class="form-control" value="{{$user->student->nomor_handphone}}">
+                            <input type="number" placeholder="Nomor Handphone" name="nomor_handphone" class="form-control" value="{{$user->student->nomor_handphone}}">
                         </div>
 
                         <div class="form-group">
                                 <label for="nomor_whatsapp">Nomor Whatsapp</label>
-                                <input type="number" placeholder="Nomor Whatsapp" class="form-control" value="{{$user->student->nomor_whatsapp}}">
+                                <input type="number" placeholder="Nomor Whatsapp" name="nomor_whatsapp" class="form-control" value="{{$user->student->nomor_whatsapp}}">
                             </div>
                     </div>
                 </div>
@@ -144,7 +144,8 @@
         </div>
 
     </div>
-    @endsection
+</form>
+@endsection
 
 
     @section('additional-js')

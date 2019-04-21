@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 
 class StudentController extends Controller
@@ -21,7 +22,7 @@ class StudentController extends Controller
     {
 
         //
-        // return view('dashboard.indexStudent')->with(["user"=>Auth::user()]);
+        return view('dashboard.indexUser')->with(["user"=>Auth::user()]);
     }
 
     /**
@@ -77,15 +78,29 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        $user = \App\User::findOrFail(Auth::user()->id);
-        // dd($request);
+        $user=Auth::user();
+        
         if($request->hasFile('avatar')){
-            echo "masuk avatar";
-            $path = $request->avatar->store('user/avatar');
+            if(Storage::exists('public/'.$user->avatar)){
+                Storage::delete('public/'.$user->avatar);
+            }
+            $path = $request->avatar->store('user/avatar', 'public');
             $user->avatar=$path;
         }
+        $student=$user->student;
+        $user->name=$request->name;
 
-        if($user->save()){
+        $user->student->tanggal_lahir=$request->tanggal_lahir;
+        $user->student->jenis_kelamin=$request->jenis_kelamin;
+        $user->student->alamat=$request->alamat;
+        $user->student->kabupaten_kota=$request->kabupaten_kota;
+        $user->student->kode_pos=$request->kode_pos;
+        $user->student->nomor_handphone=$request->nomor_handphone;
+        $user->student->nomor_whatsapp=$request->nomor_whatsapp;
+        $user->student->tingkatan=$request->tingkatan;
+        $user->student->kelas=$request->kelas;
+
+        if($user->save() && $user->student->save()){
             echo "save";
         }else{
             echo "no";
