@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class StudentController extends Controller
 {
+    public function __construct(){
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,9 @@ class StudentController extends Controller
      */
     public function index()
     {
+
         //
+        // return view('dashboard.indexStudent')->with(["user"=>Auth::user()]);
     }
 
     /**
@@ -55,9 +62,10 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $student)
+    public function edit()
     {
-        //
+        return view('dashboard.editStudent')->with(["user"=>Auth::user()]);
+        
     }
 
     /**
@@ -69,7 +77,19 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //
+        $user = \App\User::findOrFail(Auth::user()->id);
+        // dd($request);
+        if($request->hasFile('avatar')){
+            echo "masuk avatar";
+            $path = $request->avatar->store('user/avatar');
+            $user->avatar=$path;
+        }
+
+        if($user->save()){
+            echo "save";
+        }else{
+            echo "no";
+        }
     }
 
     /**

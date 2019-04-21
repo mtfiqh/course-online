@@ -17,4 +17,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function () {
+    Route::get('/', 'DashboardController@index')->name('dashboard');
+
+    Route::group(['prefix' => 'student', 'middleware' => ['student']], function () {
+        Route::get('/', 'StudentController@index')->name('student.index');
+        Route::get('/edit', 'StudentController@edit')->name('student.edit');
+        Route::put('/edit', 'StudentController@update')->name('student.update');
+    });
+    // Route::resource('student', 'StudentController')->middleware('student');
+    Route::resource('teacher', 'TeacherController');
+    
+});
