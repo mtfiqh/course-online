@@ -26,6 +26,13 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function () {
         Route::put('/edit', 'StudentController@update')->name('student.update');
     });
     // Route::resource('student', 'StudentController')->middleware('student');
-    Route::resource('teacher', 'TeacherController');
+    Route::group(['prefix' => 'teacher', 'middleware' => ['teacher']], function () {
+        Route::get('/', 'TeacherController@index')->name('teacher.index');
+        Route::get('/edit', 'TeacherController@edit')->name('teacher.edit');
+        Route::put('/edit', 'TeacherController@update')->name('teacher.update');
+        Route::delete('/deleteCv', 'TeacherController@deleteCv')->name('teacher.deleteCv');
+        Route::delete('/deleteTranskrip', 'TeacherController@deleteTranskrip')->name('teacher.deleteTranskrip');
+        Route::delete('/deleteCertificate', 'TeacherController@deleteCertificate')->name('teacher.deleteCertificate');
+    });
     
 });

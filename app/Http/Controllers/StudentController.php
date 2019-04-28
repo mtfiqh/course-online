@@ -21,8 +21,7 @@ class StudentController extends Controller
     public function index()
     {
 
-        //
-        return view('dashboard.indexUser')->with(["user"=>Auth::user()]);
+        return view('dashboard.indexUser')->with(["user"=>Auth::user(),"data"=>Auth::user()->student]);
     }
 
     /**
@@ -65,7 +64,7 @@ class StudentController extends Controller
      */
     public function edit()
     {
-        return view('dashboard.editStudent')->with(["user"=>Auth::user()]);
+        return view('dashboard.editUser')->with(["user"=>Auth::user(),"data"=>Auth::user()->student]);
         
     }
 
@@ -101,7 +100,7 @@ class StudentController extends Controller
         $user->student->kelas=$request->kelas;
 
         if($user->save() && $user->student->save()){
-            echo "save";
+            return redirect()->route('student.index')->with('message', 'success');
         }else{
             echo "no";
         }

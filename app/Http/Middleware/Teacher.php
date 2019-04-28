@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class Student
+class Teacher
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class Student
     public function handle($request, Closure $next)
     {
         if(Auth::check()){
-            if(Auth::user()->role->name=="Student"){
+            if(Auth::user()->role->name=="Teacher"){
                 
                 return $next($request);
             }
