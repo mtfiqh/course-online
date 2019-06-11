@@ -125,14 +125,36 @@
                 </div>
             </div>
             @endif
-            
+
             @if(Auth::user()->role->name=="Teacher")
+            <div class="col-md-12">
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <h2>Pendidikan & Pekerjaan</h2>
+                        <hr />
+                        <div class="form-group">
+                            <label for="pendidikan_terakhir">Pendidikan Terakhir:</label>
+                            <input type="text" class="form-control" name="pendidikan_terakhir" value="{{$data->pendidikan_terakhir}}"
+                                placeholder="Pendidikan Terakhir (S1, D3)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pekerjaan">Pekerjaan</label>
+                            <input type="text" class="form-control" name="pekerjaan" value="{{$data->pekerjaan}}" placeholder="Pekerjaan Terakhir / saat ini">
+
+                        </div>
+                        <input type="checkbox" name="masih_bekerja" value="TRUE" {{$data->masih_bekerja ? 'checked' : ''}}>Masih Bekerja?
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <div class="card mt-2">
                     <div class="card-body">
                         <h2>Berkas</h2>
                         <hr />
-                        
+
                         <label for="CV">Curiculum Vite</label>
                         <br />
                         <div id="CV">
@@ -175,7 +197,7 @@
                             @endif
                         </div>
                         <br />
-                        <button  id="tambah-sertifikat" type="button" class="btn btn-success btn-block">Tambah Sertifikat</button> 
+                        <button  id="tambah-sertifikat" type="button" class="btn btn-success btn-block">Tambah Sertifikat</button>
                     </div>
                 </div>
             </div>
@@ -225,7 +247,7 @@
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 
-    
+
 
     function hapusCv(){
         $('#fileCv').remove();

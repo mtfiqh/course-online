@@ -87,6 +87,10 @@ class TeacherController extends Controller
         $user->teacher->nomor_handphone=$request->nomor_handphone;
         $user->teacher->nomor_whatsapp=$request->nomor_whatsapp;
 
+        $user->teacher->pendidikan_terakhir=$request->pendidikan_terakhir;
+        $user->teacher->pekerjaan = $request->pekerjaan;
+        $request->masih_bekerja ? $user->teacher->masih_bekerja = TRUE : $user->teacher->masih_bekerja= FALSE;
+
         if($request->hasFile('avatar')){
             if(Storage::exists('public/'.$user->avatar)){
                 Storage::delete('public/'.$user->avatar);
@@ -103,7 +107,7 @@ class TeacherController extends Controller
             $path = $request->CV->store('user/'.$user->id.'/CV', 'public');
             $user->teacher->CV=$path;
         }
-        
+
         if($request->hasFile('transkrip')){
             if(Storage::exists('public/'.$user->teacher->transkrip)){
                 Storage::delete('public/'.$user->teacher->transkrip);
@@ -122,11 +126,50 @@ class TeacherController extends Controller
                 // $user->teacher->certificate=$path;
             }
         }
+        if(!$this->anyNull($user)){
+            //complete set true
+            $user->filled=true;
+        }else{
+            //complete set false
+            $user->filled=false;
+
+        }
         if($user->save() && $user->teacher->save()){
             return redirect()->route('teacher.index')->with('message', 'success');
         }
     }
-
+    /**
+     * check any null data on teacher data
+     * @param @user
+     */
+    private function anyNull($user){
+        if($user->name==NULL){
+            return true;
+        }else if($user->email==NULL){
+            return true;
+        }else if($user->teacher->tanggal_lahir==NULL){
+            return true;
+        }else if($user->teacher->nomor_handphone==NULL){
+            return true;
+        }else if($user->teacher->nomor_whatsapp==NULL){
+            return true;
+        }else if($user->teacher->pendidikan_terakhir==NULL){
+            return true;
+        }else if($user->teacher->jenis_kelamin==NULL){
+            return true;
+        }else if($user->teacher->alamat==NULL){
+            return true;
+        }else if($user->teacher->kabupaten_kota==NULL){
+            return true;
+        }else if($user->teacher->kode_pos==NULL){
+            return true;
+        }else if($user->teacher->CV==NULL){
+            return true;
+        }else if($user->teacher->transkrip==NULL){
+            return true;
+        }
+        return false;
+    }
     /**
      * Remove the specified resource from storage.
      *
